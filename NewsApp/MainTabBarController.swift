@@ -19,8 +19,8 @@ class MainTabBarController: UITabBarController {
         viewControllers = [
         generateVC(
             viewController: HomeViewController(),
-            title: "Home",
-            image: UIImage(systemName: "house.fill")),
+            title: "Main News",
+            image: UIImage(systemName: "newspaper")),
         generateVC(
             viewController: PersonalViewController(),
             title: "Personal Info",
@@ -55,11 +55,11 @@ class MainTabBarController: UITabBarController {
             width: width,
             height: tabBarHeight),
             cornerRadius: cornerRadius)
-        
+
         let roundLayer = CAShapeLayer()
         roundLayer.path = bezierPath.cgPath
         roundLayer.lineWidth = 0
-        
+
         tabBar.layer.insertSublayer(roundLayer, at: 0)
         
         tabBar.itemPositioning = .centered

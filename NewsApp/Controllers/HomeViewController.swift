@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SafariServices
 
 class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
@@ -13,6 +14,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     let mainLabel = UILabel()
     
+    private var articles = [Article]()
     private var viewModels = [MainNewsTableViewCellViewModel]()
     
     private let tableView: UITableView = {
@@ -37,9 +39,20 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         mainLabel.font = UIFont(name: "Georgia", size: 40)
         mainLabel.font = UIFont.boldSystemFont(ofSize: 40)
         
+        fetchTopStories()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        tableView.frame = CGRect(x: 0, y: 130, width: view.bounds.width, height: view.bounds.height - 160) // нужно поправить размер tableView, чтобы он не наезжал на tabBar
+    }
+    
+    private func fetchTopStories() {
         APICaller.shared.getTopStories { [weak self] result in
             switch result {
             case .success(let articles):
+                self?.articles = articles
                 self?.viewModels = articles.compactMap({
                     MainNewsTableViewCellViewModel(
                         title: $0.title,
@@ -55,13 +68,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                 print(error)
             }
         }
-    
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-        tableView.frame = CGRect(x: 0, y: 130, width: view.bounds.width, height: view.bounds.height - 160) // нужно поправить размер tableView, чтобы он не наезжал на tabBar
+
     }
     
     // MARK: TableView settings
@@ -87,6 +94,12 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true) //выделение ячейки пропадает
+        let articles = articles[indexPath.row]
+        
+        guard let url = URL(string: articles.url ?? "") else { return }
+        
+        let vc = SFSafariViewController(url: url)
+        present(vc, animated: true)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
