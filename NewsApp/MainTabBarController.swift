@@ -13,24 +13,42 @@ class MainTabBarController: UITabBarController {
         super.viewDidLoad()
         generateTabBar()
         configureTabBar()
+        
+        
     }
 
+//    func generateTabBar() {
+//        viewControllers = [
+//        generateVC(
+//            viewController: HomeViewController(),
+//            title: "Main News",
+//            image: UIImage(systemName: "newspaper")),
+//        generateVC(
+//            viewController: PersonalViewController(),
+//            title: "Personal Info",
+//            image: UIImage(systemName: "person.fill")),
+//        generateVC(
+//            viewController: SettingsViewController(),
+//            title: "Settings",
+//            image: UIImage(systemName: "slider.horizontal.3"))
+//        ]
+//    }
+    
     func generateTabBar() {
-        viewControllers = [
-        generateVC(
-            viewController: HomeViewController(),
-            title: "Main News",
-            image: UIImage(systemName: "newspaper")),
-        generateVC(
-            viewController: PersonalViewController(),
-            title: "Personal Info",
-            image: UIImage(systemName: "person.fill")),
-        generateVC(
-            viewController: SettingsViewController(),
-            title: "Settings",
-            image: UIImage(systemName: "slider.horizontal.3"))
-        ]
-    }
+            let homeViewController = HomeViewController()
+            let personalViewController = PersonalViewController()
+            let settingsViewController = SettingsViewController()
+            
+            let homeNavigationController = UINavigationController(rootViewController: homeViewController)
+            let personalNavigationController = UINavigationController(rootViewController: personalViewController)
+            let settingsNavigationController = UINavigationController(rootViewController: settingsViewController)
+            
+            homeNavigationController.tabBarItem = UITabBarItem(title: "Main News", image: UIImage(systemName: "newspaper"), tag: 0)
+            personalNavigationController.tabBarItem = UITabBarItem(title: "Personal Info", image: UIImage(systemName: "person.fill"), tag: 1)
+            settingsNavigationController.tabBarItem = UITabBarItem(title: "Settings", image: UIImage(systemName: "slider.horizontal.3"), tag: 2)
+            
+            viewControllers = [homeNavigationController, personalNavigationController, settingsNavigationController]
+        }
     
     private func generateVC(viewController: UIViewController, title: String, image: UIImage?) -> UIViewController {
         viewController.tabBarItem.title = title

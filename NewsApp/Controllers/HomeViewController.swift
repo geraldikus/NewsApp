@@ -8,14 +8,13 @@
 import UIKit
 import SafariServices
 
-class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
     
     let model = APIResponse(articles: [Article]())
+    let searchVC = UISearchController(searchResultsController: nil)
     
-    let mainLabel = UILabel()
-    
-    private var articles = [Article]()
-    private var viewModels = [MainNewsTableViewCellViewModel]()
+    var articles = [Article]()
+    var viewModels = [MainNewsTableViewCellViewModel]()
     
     private let tableView: UITableView = {
         let table = UITableView()
@@ -26,26 +25,28 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        mainLabel.text = "Main News"
         view.backgroundColor = .systemBackground
         
-        view.addSubview(mainLabel)
         view.addSubview(tableView)
+        
+        view.addSubview(searchVC.searchBar)
         
         tableView.delegate = self
         tableView.dataSource = self
         
-        mainLabel.frame = CGRect(x: 10, y: 70, width: 400, height: 40)
-        mainLabel.font = UIFont(name: "Georgia", size: 40)
-        mainLabel.font = UIFont.boldSystemFont(ofSize: 40)
-        
+        title = "Main News"
+      //  navigationItem.largeTitleDisplayMode = .always
+        navigationController?.navigationBar.prefersLargeTitles = true
+
         fetchTopStories()
+        createSearchBar()
+        
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        tableView.frame = CGRect(x: 0, y: 130, width: view.bounds.width, height: view.bounds.height - 160) // нужно поправить размер tableView, чтобы он не наезжал на tabBar
+       tableView.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height) // нужно поправить размер tableView, чтобы он не наезжал на tabBar
     }
     
     private func fetchTopStories() {
@@ -75,7 +76,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-//        return model.articles.count
         return viewModels.count
     }
     
@@ -104,6 +104,25 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 150
+    }
+    
+    // MARK: Search settings
+    
+    private func createSearchBar() {
+        navigationItem.searchController = searchVC
+        searchVC.searchBar.delegate = self
+       //searchVC.searchBar.frame = CGRect(x: 0, y: 120, width: view.bounds.width, height: 50)
+//        searchVC.hidesBottomBarWhenPushed = true
+//           searchVC.searchBar.translatesAutoresizingMaskIntoConstraints = false
+//           searchVC.hidesNavigationBarDuringPresentation = false // Добавьте эту строку
+//           searchVC.searchBar.showsCancelButton = true
+        
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        guard let text = searchBar.text, !text.isEmpty else { return }
+        
+        print(text)
     }
 }
 
