@@ -82,8 +82,8 @@
 		3A2F9C652A417F9000F7D7A6 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				3A2F9C5F2A417DB900F7D7A6 /* HomeViewController.swift */,
 				3A2F9C6C2A41D75500F7D7A6 /* MainNewsTableViewCell.swift */,
+				3A2F9C5F2A417DB900F7D7A6 /* HomeViewController.swift */,
 				3A2F9C612A417F7D00F7D7A6 /* PersonalViewController.swift */,
 				3A2F9C632A417F8300F7D7A6 /* SettingsViewController.swift */,
 			);

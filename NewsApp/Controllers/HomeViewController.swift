@@ -13,9 +13,11 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     let mainLabel = UILabel()
     
+    private var viewModels = [MainNewsTableViewCellViewModel]()
+    
     private let tableView: UITableView = {
         let table = UITableView()
-        table.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        table.register(MainNewsTableViewCell.self, forCellReuseIdentifier: MainNewsTableViewCell.identifier)
         return table
     }()
     
@@ -35,10 +37,20 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         mainLabel.font = UIFont(name: "Georgia", size: 40)
         mainLabel.font = UIFont.boldSystemFont(ofSize: 40)
         
-        APICaller.shared.getTopStories { result in
+        APICaller.shared.getTopStories { [weak self] result in
             switch result {
-            case .success(let response):
-                break
+            case .success(let articles):
+                self?.viewModels = articles.compactMap({
+                    MainNewsTableViewCellViewModel(
+                        title: $0.title,
+                        subtitle: $0.description ?? "No Description",
+                        imageURL: URL(string: $0.urlToImage ?? "")
+                    )
+                })
+                
+                DispatchQueue.main.async {
+                    self?.tableView.reloadData()
+                }
             case .failure(let error):
                 print(error)
             }
@@ -49,7 +61,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        tableView.frame = CGRect(x: 0, y: 130, width: view.bounds.width, height: view.bounds.height)
+        tableView.frame = CGRect(x: 0, y: 130, width: view.bounds.width, height: view.bounds.height - 160) // нужно поправить размер tableView, чтобы он не наезжал на tabBar
     }
     
     // MARK: TableView settings
@@ -57,21 +69,28 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
 //        return model.articles.count
-        return 1
+        return viewModels.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: MainNewsTableViewCell.identifier,
+            for: indexPath
+        ) as? MainNewsTableViewCell else {
+            fatalError(debugDescription)
+        }
         
-        var content = cell.defaultContentConfiguration()
-        content.text = "Random"
-        
-        cell.contentConfiguration = content
+        cell.configure(with: viewModels[indexPath.row])
+
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
+        tableView.deselectRow(at: indexPath, animated: true) //выделение ячейки пропадает
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 150
     }
 }
 
