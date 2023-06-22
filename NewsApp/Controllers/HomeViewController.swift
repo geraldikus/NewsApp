@@ -19,6 +19,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     private let tableView: UITableView = {
         let table = UITableView()
         table.register(MainNewsTableViewCell.self, forCellReuseIdentifier: MainNewsTableViewCell.identifier)
+        
         return table
     }()
     
@@ -46,7 +47,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-       tableView.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height) // нужно поправить размер tableView, чтобы он не наезжал на tabBar
+       tableView.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height)
     }
     
     private func fetchTopStories() {
