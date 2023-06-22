@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MainTabBarController: UITabBarController {
+class TabBarController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -16,8 +16,8 @@ class MainTabBarController: UITabBarController {
     }
 
     func generateTabBar() {
-        let homeViewController = HomeViewController()
-        let personalViewController = PersonalViewController()
+        let homeViewController = MainViewController()
+        let personalViewController = SportViewController()
         let settingsViewController = SettingsViewController()
         
         let homeNavigationController = UINavigationController(rootViewController: homeViewController)
@@ -25,7 +25,7 @@ class MainTabBarController: UITabBarController {
         let settingsNavigationController = UINavigationController(rootViewController: settingsViewController)
         
         homeNavigationController.tabBarItem = UITabBarItem(title: "Main News", image: UIImage(systemName: "newspaper"), tag: 0)
-        personalNavigationController.tabBarItem = UITabBarItem(title: "Personal Info", image: UIImage(systemName: "person.fill"), tag: 1)
+        personalNavigationController.tabBarItem = UITabBarItem(title: "Sport", image: UIImage(systemName: "figure.hockey"), tag: 1)
         settingsNavigationController.tabBarItem = UITabBarItem(title: "Settings", image: UIImage(systemName: "slider.horizontal.3"), tag: 2)
         
         viewControllers = [homeNavigationController, personalNavigationController, settingsNavigationController]
@@ -39,15 +39,10 @@ class MainTabBarController: UITabBarController {
     
     private func configureTabBar() {
         let positionOnX: CGFloat = 10
-        let positionOnY: CGFloat = 14
         let width = tabBar.bounds.width - positionOnX * 2
-        let height = tabBar.bounds.height + positionOnY * 2
-        
-        let tabBarHeight = min(height, tabBar.bounds.height + positionOnY * 2)
-        
-        tabBar.itemPositioning = .centered
         let numberOfItems = CGFloat(tabBar.items?.count ?? 1)
         
+        tabBar.itemPositioning = .centered
         tabBar.itemWidth = width / max(numberOfItems, 1)
         tabBar.barTintColor = UIColor.systemBackground
         tabBar.isTranslucent = false

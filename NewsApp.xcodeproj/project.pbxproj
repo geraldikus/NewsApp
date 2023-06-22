@@ -9,11 +9,11 @@
 /* Begin PBXBuildFile section */
 		3A2F9C4C2A417AB100F7D7A6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A2F9C4B2A417AB100F7D7A6 /* AppDelegate.swift */; };
 		3A2F9C4E2A417AB200F7D7A6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A2F9C4D2A417AB200F7D7A6 /* SceneDelegate.swift */; };
-		3A2F9C502A417AB200F7D7A6 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A2F9C4F2A417AB200F7D7A6 /* MainTabBarController.swift */; };
+		3A2F9C502A417AB200F7D7A6 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A2F9C4F2A417AB200F7D7A6 /* TabBarController.swift */; };
 		3A2F9C552A417AB400F7D7A6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3A2F9C542A417AB400F7D7A6 /* Assets.xcassets */; };
 		3A2F9C582A417AB400F7D7A6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A2F9C562A417AB400F7D7A6 /* LaunchScreen.storyboard */; };
-		3A2F9C602A417DB900F7D7A6 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A2F9C5F2A417DB900F7D7A6 /* HomeViewController.swift */; };
-		3A2F9C622A417F7D00F7D7A6 /* PersonalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A2F9C612A417F7D00F7D7A6 /* PersonalViewController.swift */; };
+		3A2F9C602A417DB900F7D7A6 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A2F9C5F2A417DB900F7D7A6 /* MainViewController.swift */; };
+		3A2F9C622A417F7D00F7D7A6 /* SportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A2F9C612A417F7D00F7D7A6 /* SportViewController.swift */; };
 		3A2F9C642A417F8300F7D7A6 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A2F9C632A417F8300F7D7A6 /* SettingsViewController.swift */; };
 		3A2F9C672A4199DF00F7D7A6 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A2F9C662A4199DF00F7D7A6 /* UIColorExtension.swift */; };
 		3A2F9C6B2A41CB8E00F7D7A6 /* APICaller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A2F9C6A2A41CB8E00F7D7A6 /* APICaller.swift */; };
@@ -24,12 +24,12 @@
 		3A2F9C482A417AB100F7D7A6 /* NewsApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NewsApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A2F9C4B2A417AB100F7D7A6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3A2F9C4D2A417AB200F7D7A6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		3A2F9C4F2A417AB200F7D7A6 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
+		3A2F9C4F2A417AB200F7D7A6 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		3A2F9C542A417AB400F7D7A6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3A2F9C572A417AB400F7D7A6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3A2F9C592A417AB400F7D7A6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		3A2F9C5F2A417DB900F7D7A6 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
-		3A2F9C612A417F7D00F7D7A6 /* PersonalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalViewController.swift; sourceTree = "<group>"; };
+		3A2F9C5F2A417DB900F7D7A6 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		3A2F9C612A417F7D00F7D7A6 /* SportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportViewController.swift; sourceTree = "<group>"; };
 		3A2F9C632A417F8300F7D7A6 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		3A2F9C662A4199DF00F7D7A6 /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
 		3A2F9C6A2A41CB8E00F7D7A6 /* APICaller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICaller.swift; sourceTree = "<group>"; };
@@ -66,11 +66,10 @@
 		3A2F9C4A2A417AB100F7D7A6 /* NewsApp */ = {
 			isa = PBXGroup;
 			children = (
-				3A2F9C4B2A417AB100F7D7A6 /* AppDelegate.swift */,
-				3A2F9C6A2A41CB8E00F7D7A6 /* APICaller.swift */,
-				3A2F9C4D2A417AB200F7D7A6 /* SceneDelegate.swift */,
-				3A2F9C662A4199DF00F7D7A6 /* UIColorExtension.swift */,
-				3A2F9C4F2A417AB200F7D7A6 /* MainTabBarController.swift */,
+				3AE812F02A445F1D00918B0E /* Network */,
+				3AE812F22A445F5300918B0E /* Extension */,
+				3AE812F32A445F7C00918B0E /* Navigation */,
+				3AE812F42A445F9100918B0E /* Cells */,
 				3A2F9C652A417F9000F7D7A6 /* Controllers */,
 				3A2F9C542A417AB400F7D7A6 /* Assets.xcassets */,
 				3A2F9C562A417AB400F7D7A6 /* LaunchScreen.storyboard */,
@@ -82,12 +81,53 @@
 		3A2F9C652A417F9000F7D7A6 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				3A2F9C6C2A41D75500F7D7A6 /* MainNewsTableViewCell.swift */,
-				3A2F9C5F2A417DB900F7D7A6 /* HomeViewController.swift */,
-				3A2F9C612A417F7D00F7D7A6 /* PersonalViewController.swift */,
+				3A2F9C5F2A417DB900F7D7A6 /* MainViewController.swift */,
+				3A2F9C612A417F7D00F7D7A6 /* SportViewController.swift */,
 				3A2F9C632A417F8300F7D7A6 /* SettingsViewController.swift */,
+				3AE812F12A445F3E00918B0E /* Other */,
 			);
 			path = Controllers;
+			sourceTree = "<group>";
+		};
+		3AE812F02A445F1D00918B0E /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				3A2F9C6A2A41CB8E00F7D7A6 /* APICaller.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		3AE812F12A445F3E00918B0E /* Other */ = {
+			isa = PBXGroup;
+			children = (
+				3A2F9C4B2A417AB100F7D7A6 /* AppDelegate.swift */,
+				3A2F9C4D2A417AB200F7D7A6 /* SceneDelegate.swift */,
+			);
+			path = Other;
+			sourceTree = "<group>";
+		};
+		3AE812F22A445F5300918B0E /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				3A2F9C662A4199DF00F7D7A6 /* UIColorExtension.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		3AE812F32A445F7C00918B0E /* Navigation */ = {
+			isa = PBXGroup;
+			children = (
+				3A2F9C4F2A417AB200F7D7A6 /* TabBarController.swift */,
+			);
+			path = Navigation;
+			sourceTree = "<group>";
+		};
+		3AE812F42A445F9100918B0E /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				3A2F9C6C2A41D75500F7D7A6 /* MainNewsTableViewCell.swift */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -160,13 +200,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3A2F9C502A417AB200F7D7A6 /* MainTabBarController.swift in Sources */,
+				3A2F9C502A417AB200F7D7A6 /* TabBarController.swift in Sources */,
 				3A2F9C672A4199DF00F7D7A6 /* UIColorExtension.swift in Sources */,
-				3A2F9C622A417F7D00F7D7A6 /* PersonalViewController.swift in Sources */,
+				3A2F9C622A417F7D00F7D7A6 /* SportViewController.swift in Sources */,
 				3A2F9C6D2A41D75500F7D7A6 /* MainNewsTableViewCell.swift in Sources */,
 				3A2F9C4C2A417AB100F7D7A6 /* AppDelegate.swift in Sources */,
 				3A2F9C4E2A417AB200F7D7A6 /* SceneDelegate.swift in Sources */,
-				3A2F9C602A417DB900F7D7A6 /* HomeViewController.swift in Sources */,
+				3A2F9C602A417DB900F7D7A6 /* MainViewController.swift in Sources */,
 				3A2F9C642A417F8300F7D7A6 /* SettingsViewController.swift in Sources */,
 				3A2F9C6B2A41CB8E00F7D7A6 /* APICaller.swift in Sources */,
 			);

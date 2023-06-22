@@ -94,6 +94,7 @@ class MainNewsTableViewCell: UITableViewCell {
         subtitleLabel.text = viewModel.subtitle
         
         //Image
+        
         if let data = viewModel.imageData {
             newsImageView.image = UIImage(data: data)
         } else if let url = viewModel.imageURL {

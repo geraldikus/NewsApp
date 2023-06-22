@@ -8,13 +8,10 @@
 import UIKit
 import SafariServices
 
-class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
+class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
     
     private let refreshControl = UIRefreshControl()
-
-    
-    let model = APIResponse(articles: [Article]())
-    let searchVC = UISearchController(searchResultsController: nil)
+    private let searchVC = UISearchController(searchResultsController: nil)
     
     var articles = [Article]()
     var viewModels = [MainNewsTableViewCellViewModel]()
@@ -28,36 +25,29 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = "Main News"
         
         view.backgroundColor = .systemBackground
-        
         view.addSubview(tableView)
-        
         view.addSubview(searchVC.searchBar)
         
         tableView.delegate = self
         tableView.dataSource = self
-        
-        title = "Main News"
-      //  navigationItem.largeTitleDisplayMode = .always
         navigationController?.navigationBar.prefersLargeTitles = true
 
         fetchTopStories()
         createSearchBar()
         
         tableView.refreshControl = refreshControl
-            refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
-        
+        refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
     }
     
     @objc private func refreshData() {
         fetchTopStories()
     }
 
-    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
        tableView.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height)
     }
     
@@ -82,13 +72,11 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                 print(error)
             }
         }
-
     }
     
     // MARK: TableView settings
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
         return viewModels.count
     }
     
@@ -124,12 +112,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     private func createSearchBar() {
         navigationItem.searchController = searchVC
         searchVC.searchBar.delegate = self
-       //searchVC.searchBar.frame = CGRect(x: 0, y: 120, width: view.bounds.width, height: 50)
-//        searchVC.hidesBottomBarWhenPushed = true
-//           searchVC.searchBar.translatesAutoresizingMaskIntoConstraints = false
-//           searchVC.hidesNavigationBarDuringPresentation = false // Добавьте эту строку
-//           searchVC.searchBar.showsCancelButton = true
-        
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -155,8 +137,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                 print(error)
             }
         }
-        
-        print(text)
     }
 }
 
