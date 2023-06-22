@@ -1,28 +1,15 @@
 //
-//  MainNewsTableViewCell.swift
+//  SportNewsTableViewCell.swift
 //  NewsApp
 //
-//  Created by Anton on 20.06.23.
+//  Created by Anton on 22.06.23.
 //
 
 import UIKit
 
-class NewsTableViewCellViewModel {
-    let title: String
-    let subtitle: String
-    let imageURL: URL?
-    var imageData: Data? = nil
-    
-    init(title: String, subtitle: String, imageURL: URL?) {
-        self.title = title
-        self.subtitle = subtitle
-        self.imageURL = imageURL
-    }
-}
+class SportNewsTableViewCell: UITableViewCell {
 
-class MainNewsTableViewCell: UITableViewCell {
-
-    static let identifier = "MainNewsTableViewCell"
+    static let identifier = "SportNewsTableViewCell"
     
     private let newsTitleLabel: UILabel = {
         let label = UILabel()
@@ -111,3 +98,5 @@ class MainNewsTableViewCell: UITableViewCell {
       }
     }
 }
+
+

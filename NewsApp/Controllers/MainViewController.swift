@@ -14,7 +14,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     private let searchVC = UISearchController(searchResultsController: nil)
     
     var articles = [Article]()
-    var viewModels = [MainNewsTableViewCellViewModel]()
+    var viewModels = [NewsTableViewCellViewModel]()
     
     private let tableView: UITableView = {
         let table = UITableView()
@@ -57,7 +57,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             case .success(let articles):
                 self?.articles = articles
                 self?.viewModels = articles.compactMap({
-                    MainNewsTableViewCellViewModel(
+                    NewsTableViewCellViewModel(
                         title: $0.title,
                         subtitle: $0.description ?? "No Description",
                         imageURL: URL(string: $0.urlToImage ?? "")
@@ -122,7 +122,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             case .success(let articles):
                 self?.articles = articles
                 self?.viewModels = articles.compactMap({
-                    MainNewsTableViewCellViewModel(
+                    NewsTableViewCellViewModel(
                         title: $0.title,
                         subtitle: $0.description ?? "No Description",
                         imageURL: URL(string: $0.urlToImage ?? "")
