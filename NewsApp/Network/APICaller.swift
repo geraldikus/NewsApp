@@ -14,7 +14,7 @@ final class APICaller {
     struct Constant {
         static let topHeadLinesURL = URL(string: "https://newsapi.org/v2/top-headlines?country=us&apiKey=33109c340d87428a967017d7b4e8451a")
         static let searchURLString =  "https://newsapi.org/v2/everything?sortedBy=popularity&apiKey=33109c340d87428a967017d7b4e8451a&q="
-        static let topSportLinesURL = URL(string: "https://newsapi.org/v2/everything?sortedBy=popularity&apiKey=33109c340d87428a967017d7b4e8451a&q=sports")
+        static let topSportLinesURL = URL(string: "https://newsapi.org/v2/everything?sortedBy=popularity&apiKey=33109c340d87428a967017d7b4e8451a&q=sport")
         static let topBusinessLinesURL = URL(string: "https://newsapi.org/v2/everything?sortedBy=popularity&apiKey=33109c340d87428a967017d7b4e8451a&q=business")
     }
     
@@ -81,7 +81,6 @@ final class APICaller {
             task.resume()
     }
     
-    
     public func search(with query: String, completion: @escaping (Result<[Article], Error>) -> Void) {
         guard !query.trimmingCharacters(in: .whitespaces).isEmpty else { return }
                 
@@ -105,6 +104,5 @@ final class APICaller {
         }
             task.resume()
     }
-    
 }
 
