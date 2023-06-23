@@ -18,7 +18,7 @@ class TabBarController: UITabBarController {
     func generateTabBar() {
         let homeViewController = MainViewController()
         let personalViewController = SportViewController()
-        let settingsViewController = SettingsViewController()
+        let settingsViewController = BusinessViewController()
         
         let homeNavigationController = UINavigationController(rootViewController: homeViewController)
         let personalNavigationController = UINavigationController(rootViewController: personalViewController)
@@ -26,7 +26,7 @@ class TabBarController: UITabBarController {
         
         homeNavigationController.tabBarItem = UITabBarItem(title: "Main News", image: UIImage(systemName: "newspaper"), tag: 0)
         personalNavigationController.tabBarItem = UITabBarItem(title: "Sport", image: UIImage(systemName: "figure.hockey"), tag: 1)
-        settingsNavigationController.tabBarItem = UITabBarItem(title: "Settings", image: UIImage(systemName: "slider.horizontal.3"), tag: 2)
+        settingsNavigationController.tabBarItem = UITabBarItem(title: "Business", image: UIImage(systemName: "suitcase"), tag: 2)
         
         viewControllers = [homeNavigationController, personalNavigationController, settingsNavigationController]
     }

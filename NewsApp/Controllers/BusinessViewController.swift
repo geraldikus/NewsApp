@@ -1,5 +1,5 @@
 //
-//  HomeViewController.swift
+//  SettingsViewController.swift
 //  NewsApp
 //
 //  Created by Anton on 20.06.23.
@@ -8,7 +8,7 @@
 import UIKit
 import SafariServices
 
-class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
+class BusinessViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
     
     private let refreshControl = UIRefreshControl()
     private let searchVC = UISearchController(searchResultsController: nil)
@@ -18,41 +18,35 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     private let tableView: UITableView = {
         let table = UITableView()
-        table.register(MainNewsTableViewCell.self, forCellReuseIdentifier: MainNewsTableViewCell.identifier)
+        table.register(BusinessNewsTableViewCell.self, forCellReuseIdentifier: BusinessNewsTableViewCell.identifier)
         
         return table
     }()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Main News"
-        
+        title = "Business"
         view.backgroundColor = .systemBackground
+        navigationController?.navigationBar.prefersLargeTitles = true
         view.addSubview(tableView)
-        view.addSubview(searchVC.searchBar)
         
         tableView.delegate = self
         tableView.dataSource = self
-        navigationController?.navigationBar.prefersLargeTitles = true
-
-        fetchTopStories()
+        tableView.refreshControl = refreshControl
+        
+        fetchBusinessStories()
         createSearchBar()
         
-        tableView.refreshControl = refreshControl
         refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
     }
     
-    @objc private func refreshData() {
-        fetchTopStories()
-    }
-
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
        tableView.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height)
     }
     
-    private func fetchTopStories() {
-        APICaller.shared.getTopStories { [weak self] result in
+    private func fetchBusinessStories() {
+        APICaller.shared.getBusinessStories { [weak self] result in
             switch result {
             case .success(let articles):
                 self?.articles = articles
@@ -63,6 +57,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
                         imageURL: URL(string: $0.urlToImage ?? "")
                     )
                 })
+                
                 DispatchQueue.main.async {
                     self?.tableView.reloadData()
                     self?.refreshControl.endRefreshing()
@@ -73,6 +68,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
+    
     // MARK: TableView settings
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -81,9 +77,9 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(
-            withIdentifier: MainNewsTableViewCell.identifier,
+            withIdentifier: BusinessNewsTableViewCell.identifier,
             for: indexPath
-        ) as? MainNewsTableViewCell else {
+        ) as? BusinessNewsTableViewCell else {
             fatalError(debugDescription)
         }
         
@@ -113,6 +109,10 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         searchVC.searchBar.delegate = self
     }
     
+    @objc private func refreshData() {
+        fetchBusinessStories()
+    }
+    
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let text = searchBar.text, !text.isEmpty else { return }
         
@@ -137,13 +137,4 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             }
         }
     }
-    
-    // MARK: Notification
 }
-
-
-
-    
-    
-    
-
