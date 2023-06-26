@@ -12,21 +12,21 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
         
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-//            guard let windowScene = (scene as? UIWindowScene) else { return }
-//            window = UIWindow(windowScene: windowScene)
-//            window?.makeKeyAndVisible()
-//            window?.rootViewController = TabBarController()
-    
         
         guard let windowScene = (scene as? UIWindowScene) else { return }
-               window = UIWindow(windowScene: windowScene)
+              window = UIWindow(windowScene: windowScene)
 
-               let registrationVC = RegistrationViewController()
-               window?.rootViewController = registrationVC
+              let registrationVC = RegistrationViewController()
+              let tabBarController = TabBarController()
 
-               window?.makeKeyAndVisible()
-        
+        registrationVC.completion = { [weak self] in
+            UIView.transition(with: self?.window ?? UIWindow(), duration: 0.3, options: .transitionCrossDissolve, animations: {
+                self?.window?.rootViewController = tabBarController
+            }, completion: nil)
         }
+              window?.rootViewController = registrationVC
+              window?.makeKeyAndVisible()
+    }
     
     
 

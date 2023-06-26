@@ -10,6 +10,8 @@ import SafariServices
 
 class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
     
+    let logOutButton = UIBarButtonItem()
+    
     private let refreshControl = UIRefreshControl()
     private let searchVC = UISearchController(searchResultsController: nil)
     
@@ -40,12 +42,16 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         tableView.refreshControl = refreshControl
         refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
+        
+        navigationItem.rightBarButtonItem = logOutButton
+        burButtonItemConfigure()
+        
     }
     
     @objc private func refreshData() {
         fetchTopStories()
     }
-
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
        tableView.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height)
@@ -106,6 +112,22 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         return 150
     }
     
+    //MARK: BarButtonItem
+    
+    func burButtonItemConfigure() {
+        logOutButton.image = UIImage(systemName: "rectangle.portrait.and.arrow.right")
+        logOutButton.style = .plain
+        logOutButton.target = self
+        logOutButton.action = #selector(barButtonPressed)
+    }
+    
+    @objc func barButtonPressed() {
+        let registrationVC = RegistrationViewController()
+        registrationVC.delegate = self
+        registrationVC.modalPresentationStyle = .fullScreen
+        present(registrationVC, animated: true)
+    }
+    
     // MARK: Search settings
     
     private func createSearchBar() {
@@ -141,6 +163,14 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     // MARK: Notification
 }
 
+extension MainViewController: RegistrationDelegate {
+    func didCompleteRegistration() {
+        dismiss(animated: true) { [weak self] in
+            self?.fetchTopStories()
+            self?.tableView.reloadData()
+        }
+    }
+}
 
 
     
