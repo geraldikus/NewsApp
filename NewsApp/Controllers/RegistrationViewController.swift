@@ -158,7 +158,9 @@ class RegistrationViewController: UIViewController {
     @objc func registrationButtonTapped() {
         guard let email = emailTextField.text, !email.isEmpty,
             let password = passwordTextField.text, !password.isEmpty else {
-            print("Missing email and passwords")
+            let alert = UIAlertController(title: "Invalid information in the email and password input fields.", message: nil, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default))
+            self.present(alert, animated: true)
             return
         }
         
