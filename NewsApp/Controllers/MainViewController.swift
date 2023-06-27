@@ -7,6 +7,7 @@
 
 import UIKit
 import SafariServices
+import FirebaseAuth
 
 class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
     
@@ -44,7 +45,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
         
         navigationItem.rightBarButtonItem = logOutButton
-        burButtonItemConfigure()
+        logOutButtonConfigure()
         
     }
     
@@ -114,18 +115,25 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     //MARK: BarButtonItem
     
-    func burButtonItemConfigure() {
+    func logOutButtonConfigure() {
         logOutButton.image = UIImage(systemName: "rectangle.portrait.and.arrow.right")
         logOutButton.style = .plain
         logOutButton.target = self
-        logOutButton.action = #selector(barButtonPressed)
+        logOutButton.action = #selector(logOutButtonPressed)
     }
     
-    @objc func barButtonPressed() {
+    @objc func logOutButtonPressed() {
         let registrationVC = RegistrationViewController()
-        registrationVC.delegate = self
-        registrationVC.modalPresentationStyle = .fullScreen
-        present(registrationVC, animated: true)
+        
+        do {
+            try FirebaseAuth.Auth.auth().signOut()
+            print("You signOut")
+            registrationVC.delegate = self
+            registrationVC.modalPresentationStyle = .fullScreen
+            present(registrationVC, animated: true)
+        } catch {
+            print("An error occured")
+        }
     }
     
     // MARK: Search settings

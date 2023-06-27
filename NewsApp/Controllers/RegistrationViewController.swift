@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 protocol RegistrationDelegate: AnyObject {
     func didCompleteRegistration()
@@ -58,6 +59,12 @@ class RegistrationViewController: UIViewController {
         view.addGestureRecognizer(tapGesture)
 
         logInButton.addTarget(self, action: #selector(logInButtonTapped), for: .touchUpInside)
+        registrationButton.addTarget(self, action: #selector(registrationButtonTapped), for: .touchUpInside)
+        
+//        if FirebaseAuth.Auth.auth().currentUser != nil {
+//            delegate?.didCompleteRegistration()
+//            completion?()
+//        }
     }
     
     func setupStackView() {
@@ -110,11 +117,85 @@ class RegistrationViewController: UIViewController {
     }
     
     
-    //MARK: Actions
+    //MARK: Actions and Firebase
     
     @objc func logInButtonTapped() {
-        delegate?.didCompleteRegistration()
-        completion?()
+        
+        guard let email = emailTextField.text, !email.isEmpty,
+              let password = passwordTextField.text, !password.isEmpty else {
+            print("Missing email and passwords")
+            return
+        }
+        
+        FirebaseAuth.Auth.auth().signIn(withEmail: email, password: password) { [weak self] results, error in
+            guard let strongSelf = self else { return }
+            guard error == nil else {
+                // show account creations
+                strongSelf.showCreateAccount(email: email, password: password)
+                return
+            }
+            
+            print("You signIn")
+            strongSelf.delegate?.didCompleteRegistration()
+            strongSelf.completion?()
+        }
+    }
+    
+    @objc func registrationButtonTapped() {
+        guard let email = emailTextField.text, !email.isEmpty,
+            let password = passwordTextField.text, !password.isEmpty else {
+            print("Missing email and passwords")
+            return
+        }
+        
+        FirebaseAuth.Auth.auth().createUser(withEmail: email, password: password) { [weak self] result, error in
+            
+            guard let strongSelf = self else { return }
+            
+            guard error == nil else {
+                // show account creations
+                let alert = UIAlertController(title: "Such an account already exists.", message: "Try pressing Log In button.", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default))
+                self?.present(alert, animated: true)
+               
+                return
+            }
+            
+            print("You signIn")
+            
+            strongSelf.delegate?.didCompleteRegistration()
+            strongSelf.completion?()
+        }
+        
+    }
+    
+    
+    func showCreateAccount(email: String, password: String) {
+        let alertController = UIAlertController(title: "Create account", message: "Would you like to create an account?", preferredStyle: .alert)
+        
+        alertController.addAction(UIAlertAction(title: "Continue", style: .default,
+                                                handler: { _ in
+            
+            FirebaseAuth.Auth.auth().createUser(withEmail: email, password: password) { [weak self] result, error in
+                
+                guard let strongSelf = self else { return }
+                
+                guard error == nil else {
+                    // show account creations
+                    print("Account creation failed")
+                    return
+                }
+                
+                print("You signIn")
+                
+                strongSelf.delegate?.didCompleteRegistration()
+                strongSelf.completion?()
+            }
+        }))
+        
+        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        
+        present(alertController, animated: true)
     }
     
     //MARK: Keyboard
@@ -144,13 +225,12 @@ class RegistrationViewController: UIViewController {
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
-
+        
         if #available(iOS 12.0, *) {
             if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
                 updateTextFieldBorderColor()
             }
         } else {
-           
             if traitCollection.userInterfaceStyle != previousTraitCollection?.userInterfaceStyle {
                 updateTextFieldBorderColor()
             }
@@ -158,12 +238,15 @@ class RegistrationViewController: UIViewController {
     }
 
     func updateTextFieldBorderColor() {
-        if traitCollection.userInterfaceStyle == .dark {
-            emailTextField.layer.borderColor = UIColor.white.cgColor
-            passwordTextField.layer.borderColor = UIColor.white.cgColor
-        } else {
-            emailTextField.layer.borderColor = UIColor.black.cgColor
-            passwordTextField.layer.borderColor = UIColor.black.cgColor
+        DispatchQueue.main.async {
+            if self.traitCollection.userInterfaceStyle == .dark {
+                self.emailTextField.layer.borderColor = UIColor.white.cgColor
+                self.passwordTextField.layer.borderColor = UIColor.white.cgColor
+            } else {
+                self.emailTextField.layer.borderColor = UIColor.black.cgColor
+                self.passwordTextField.layer.borderColor = UIColor.black.cgColor
+            }
         }
     }
+
 }
