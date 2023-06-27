@@ -44,15 +44,13 @@ class RegistrationViewController: UIViewController {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            
             stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            stackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 140),
             stackView.widthAnchor.constraint(equalToConstant: 300),
             stackView.heightAnchor.constraint(equalToConstant: 250)
             
         ])
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         tapGesture.cancelsTouchesInView = false
@@ -61,10 +59,18 @@ class RegistrationViewController: UIViewController {
         logInButton.addTarget(self, action: #selector(logInButtonTapped), for: .touchUpInside)
         registrationButton.addTarget(self, action: #selector(registrationButtonTapped), for: .touchUpInside)
         
-//        if FirebaseAuth.Auth.auth().currentUser != nil {
-//            delegate?.didCompleteRegistration()
-//            completion?()
-//        }
+        if FirebaseAuth.Auth.auth().currentUser != nil {
+            delegate?.didCompleteRegistration()
+            completion?()
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if FirebaseAuth.Auth.auth().currentUser == nil {
+            emailTextField.becomeFirstResponder()
+        }
     }
     
     func setupStackView() {
@@ -94,6 +100,9 @@ class RegistrationViewController: UIViewController {
         emailTextField.layer.borderWidth = 0.5
         emailTextField.layer.cornerRadius = 5
         emailTextField.borderStyle = .roundedRect
+        emailTextField.autocapitalizationType = .none
+        emailTextField.leftViewMode = .always
+        emailTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 0))
     }
     
     func passwordTextFieldConfigure() {
@@ -101,7 +110,10 @@ class RegistrationViewController: UIViewController {
         passwordTextField.layer.borderWidth = 0.5
         passwordTextField.layer.cornerRadius = 5
         passwordTextField.borderStyle = .roundedRect
-
+        passwordTextField.isSecureTextEntry = true
+        passwordTextField.autocapitalizationType = .none
+        passwordTextField.leftViewMode = .always
+        passwordTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 0))
     }
     
     func logInButtonConfiguration() {
@@ -123,7 +135,9 @@ class RegistrationViewController: UIViewController {
         
         guard let email = emailTextField.text, !email.isEmpty,
               let password = passwordTextField.text, !password.isEmpty else {
-            print("Missing email and passwords")
+            let alert = UIAlertController(title: "Invalid information in the email and password input fields.", message: nil, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default))
+            self.present(alert, animated: true)
             return
         }
         
@@ -199,23 +213,7 @@ class RegistrationViewController: UIViewController {
     }
     
     //MARK: Keyboard
-    
-    @objc func keyboardWillShow(notification: NSNotification) {
-        guard let userInfo = notification.userInfo else { return }
-        guard let keyboardSize = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else { return }
-        
-        UIView.animate(withDuration: 0.3) {
-            self.stackView.frame.origin.y = self.view.frame.height - keyboardSize.height - self.stackView.frame.height - 20
-        }
-    }
 
-    @objc func keyboardWillHide(notification: NSNotification) {
-        // Возврат констрейнтов stackView на исходное место
-        UIView.animate(withDuration: 0.3) {
-            self.stackView.center = self.view.center
-        }
-    }
-    
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
