@@ -168,7 +168,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
-    // MARK: Notification
+   
 }
 
 extension MainViewController: RegistrationDelegate {

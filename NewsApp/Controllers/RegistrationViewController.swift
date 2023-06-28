@@ -12,7 +12,7 @@ protocol RegistrationDelegate: AnyObject {
     func didCompleteRegistration()
 }
 
-class RegistrationViewController: UIViewController {
+class RegistrationViewController: UIViewController, UITextFieldDelegate {
     
     weak var delegate: RegistrationDelegate?
     
@@ -40,6 +40,9 @@ class RegistrationViewController: UIViewController {
         
         addElementsInStackView()
         setupStackView()
+        
+        emailTextField.delegate = self
+        passwordTextField.delegate = self
         
         stackView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -131,25 +134,27 @@ class RegistrationViewController: UIViewController {
     
     //MARK: Actions and Firebase
     
+    func addAlertControllerWithOkButton(title: String, message: String) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .default))
+        self.present(alertController, animated: true)
+    }
+    
     @objc func logInButtonTapped() {
         
         guard let email = emailTextField.text, !email.isEmpty,
               let password = passwordTextField.text, !password.isEmpty else {
-            let alert = UIAlertController(title: "Invalid information in the email and password input fields.", message: nil, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default))
-            self.present(alert, animated: true)
+            
+            addAlertControllerWithOkButton(title: "Invalid information in the email and password input fields.", message: "")
             return
         }
         
         FirebaseAuth.Auth.auth().signIn(withEmail: email, password: password) { [weak self] results, error in
             guard let strongSelf = self else { return }
             guard error == nil else {
-                // show account creations
                 strongSelf.showCreateAccount(email: email, password: password)
                 return
             }
-            
-            print("You signIn")
             strongSelf.delegate?.didCompleteRegistration()
             strongSelf.completion?()
         }
@@ -157,23 +162,23 @@ class RegistrationViewController: UIViewController {
     
     @objc func registrationButtonTapped() {
         guard let email = emailTextField.text, !email.isEmpty,
-            let password = passwordTextField.text, !password.isEmpty else {
-            let alert = UIAlertController(title: "Invalid information in the email and password input fields.", message: nil, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default))
-            self.present(alert, animated: true)
+              let password = passwordTextField.text, !password.isEmpty else {
+            
+            addAlertControllerWithOkButton(title: "Invalid information in the email and password input fields", message: "")
             return
         }
         
         FirebaseAuth.Auth.auth().createUser(withEmail: email, password: password) { [weak self] result, error in
             
             guard let strongSelf = self else { return }
-            
             guard error == nil else {
-                // show account creations
-                let alert = UIAlertController(title: "Such an account already exists.", message: "Try pressing Log In button.", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "OK", style: .default))
-                self?.present(alert, animated: true)
-               
+                if let errorCode = AuthErrorCode.Code(rawValue: error!._code) {
+                    if errorCode == .emailAlreadyInUse {
+                        strongSelf.addAlertControllerWithOkButton(title: "Such an account already exists.", message: "Try pressing Log In button.")
+                    } else {
+                        self?.addAlertControllerWithOkButton(title: "Something went wrong.", message: "Please check the correctness of the form entries and try again.")
+                    }
+                }
                 return
             }
             
@@ -184,7 +189,6 @@ class RegistrationViewController: UIViewController {
         }
         
     }
-    
     
     func showCreateAccount(email: String, password: String) {
         let alertController = UIAlertController(title: "Create account", message: "Would you like to create an account?", preferredStyle: .alert)
@@ -197,7 +201,8 @@ class RegistrationViewController: UIViewController {
                 guard let strongSelf = self else { return }
                 
                 guard error == nil else {
-                    // show account creations
+                    self?.addAlertControllerWithOkButton(title: "Something went wrong.", message: "Please check the correctness of the form entries and try again.")
+                    
                     print("Account creation failed")
                     return
                 }
@@ -219,7 +224,17 @@ class RegistrationViewController: UIViewController {
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
-
+    
+    @objc func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == emailTextField {
+            passwordTextField.becomeFirstResponder()
+        } else if textField == passwordTextField {
+            textField.resignFirstResponder()
+            logInButtonTapped()
+        }
+        
+        return true
+    }
     
     //MARK: Dark theme
     
@@ -236,7 +251,7 @@ class RegistrationViewController: UIViewController {
             }
         }
     }
-
+    
     func updateTextFieldBorderColor() {
         DispatchQueue.main.async {
             if self.traitCollection.userInterfaceStyle == .dark {
