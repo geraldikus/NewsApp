@@ -29,11 +29,11 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        labelConfigure()
-        emailTextFieldConfigure()
-        passwordTextFieldConfigure()
-        logInButtonConfiguration()
-        registrationButtonConfiguration()
+        labelConfigure(label: label)
+        emailTextFieldConfigure(emailTextField: emailTextField)
+        passwordTextFieldConfigure(passwordTextField: passwordTextField)
+        logInButtonConfiguration(logInButton: logInButton)
+        registrationButtonConfiguration(registrationButton: registrationButton)
         
         view.backgroundColor = .systemBackground
         view.addSubview(stackView)
@@ -87,50 +87,7 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate {
         stackView.addArrangedSubview(passwordTextField)
         stackView.addArrangedSubview(logInButton)
         stackView.addArrangedSubview(registrationButton)
-
     }
-    
-    //MARK: Elements
-    
-    func labelConfigure() {
-        label.text = "Registration form"
-        label.font = UIFont(name: "Helvetica-Bold", size: 24)
-        label.textAlignment = .center
-    }
-    
-    func emailTextFieldConfigure() {
-        emailTextField.placeholder = "Email"
-        emailTextField.layer.borderWidth = 0.5
-        emailTextField.layer.cornerRadius = 5
-        emailTextField.borderStyle = .roundedRect
-        emailTextField.autocapitalizationType = .none
-        emailTextField.leftViewMode = .always
-        emailTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 0))
-    }
-    
-    func passwordTextFieldConfigure() {
-        passwordTextField.placeholder = "Password"
-        passwordTextField.layer.borderWidth = 0.5
-        passwordTextField.layer.cornerRadius = 5
-        passwordTextField.borderStyle = .roundedRect
-        passwordTextField.isSecureTextEntry = true
-        passwordTextField.autocapitalizationType = .none
-        passwordTextField.leftViewMode = .always
-        passwordTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 0))
-    }
-    
-    func logInButtonConfiguration() {
-        logInButton.setTitle("Log In", for: .normal)
-        logInButton.backgroundColor = #colorLiteral(red: 0.4756349325, green: 0.4756467342, blue: 0.4756404161, alpha: 1)
-        logInButton.layer.cornerRadius = 5
-    }
-    
-    func registrationButtonConfiguration() {
-        registrationButton.setTitle("Sign In", for: .normal)
-        registrationButton.backgroundColor = #colorLiteral(red: 0.7540688515, green: 0.7540867925, blue: 0.7540771365, alpha: 1)
-        registrationButton.layer.cornerRadius = 5
-    }
-    
     
     //MARK: Actions and Firebase
     
@@ -187,7 +144,6 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate {
             strongSelf.delegate?.didCompleteRegistration()
             strongSelf.completion?()
         }
-        
     }
     
     func showCreateAccount(email: String, password: String) {

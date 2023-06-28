@@ -136,5 +136,4 @@ class SportViewController: UIViewController, UITableViewDelegate, UITableViewDat
             }
         }
     }
-
 }

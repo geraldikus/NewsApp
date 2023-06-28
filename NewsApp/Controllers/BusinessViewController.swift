@@ -67,8 +67,7 @@ class BusinessViewController: UIViewController, UITableViewDelegate, UITableView
             }
         }
     }
-    
-    
+        
     // MARK: TableView settings
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
