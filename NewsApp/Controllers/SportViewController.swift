@@ -33,6 +33,7 @@ class SportViewController: UIViewController, UITableViewDelegate, UITableViewDat
         tableView.delegate = self
         tableView.dataSource = self
         tableView.refreshControl = refreshControl
+        searchVC.searchBar.delegate = self
 
         fetchSportStories()
         createSearchBar()
@@ -112,10 +113,15 @@ class SportViewController: UIViewController, UITableViewDelegate, UITableViewDat
         searchVC.searchBar.delegate = self
     }
     
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        guard let text = searchBar.text, !text.isEmpty else { return }
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        guard !searchText.isEmpty else {
+            articles.removeAll()
+            viewModels.removeAll()
+            tableView.reloadData()
+            return
+        }
         
-        APICaller.shared.search(with: text) { [weak self] result in
+        APICaller.shared.search(with: searchText) { [weak self] result in
             switch result {
             case .success(let articles):
                 self?.articles = articles
@@ -129,7 +135,6 @@ class SportViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 
                 DispatchQueue.main.async {
                     self?.tableView.reloadData()
-                    self?.searchVC.dismiss(animated: true)
                 }
             case .failure(let error):
                 print(error)

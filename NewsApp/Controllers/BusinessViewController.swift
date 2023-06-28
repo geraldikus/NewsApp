@@ -33,6 +33,7 @@ class BusinessViewController: UIViewController, UITableViewDelegate, UITableView
         tableView.delegate = self
         tableView.dataSource = self
         tableView.refreshControl = refreshControl
+        searchVC.searchBar.delegate = self
         
         fetchBusinessStories()
         createSearchBar()
@@ -111,11 +112,16 @@ class BusinessViewController: UIViewController, UITableViewDelegate, UITableView
     @objc private func refreshData() {
         fetchBusinessStories()
     }
-    
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        guard let text = searchBar.text, !text.isEmpty else { return }
         
-        APICaller.shared.search(with: text) { [weak self] result in
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        guard !searchText.isEmpty else {
+            articles.removeAll()
+            viewModels.removeAll()
+            tableView.reloadData()
+            return
+        }
+        
+        APICaller.shared.search(with: searchText) { [weak self] result in
             switch result {
             case .success(let articles):
                 self?.articles = articles
@@ -129,7 +135,6 @@ class BusinessViewController: UIViewController, UITableViewDelegate, UITableView
                 
                 DispatchQueue.main.async {
                     self?.tableView.reloadData()
-                    self?.searchVC.dismiss(animated: true)
                 }
             case .failure(let error):
                 print(error)

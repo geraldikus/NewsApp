@@ -37,6 +37,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         tableView.delegate = self
         tableView.dataSource = self
         navigationController?.navigationBar.prefersLargeTitles = true
+        searchVC.searchBar.delegate = self
 
         fetchTopStories()
         createSearchBar()
@@ -143,10 +144,15 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         searchVC.searchBar.delegate = self
     }
     
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        guard let text = searchBar.text, !text.isEmpty else { return }
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        guard !searchText.isEmpty else {
+            articles.removeAll()
+            viewModels.removeAll()
+            tableView.reloadData()
+            return
+        }
         
-        APICaller.shared.search(with: text) { [weak self] result in
+        APICaller.shared.search(with: searchText) { [weak self] result in
             switch result {
             case .success(let articles):
                 self?.articles = articles
@@ -160,7 +166,6 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
                 
                 DispatchQueue.main.async {
                     self?.tableView.reloadData()
-                    self?.searchVC.dismiss(animated: true)
                 }
             case .failure(let error):
                 print(error)
