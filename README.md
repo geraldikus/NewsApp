@@ -7,7 +7,7 @@ You can see the app in action on YouTube through the link below.
 
 **YouTube**
 
-link
+https://youtu.be/_LW03uZh224
 
 **Features**
 
@@ -25,6 +25,7 @@ link
 * Swift: The programming language used for the application.
 * Firebase: Used for user authentication.
 * newsapi.org: Free API used for fetching news.
+* The entire app layout is done using code.
 
 ## Installation and Running
 1. Clone the repository to your device.
@@ -52,7 +53,7 @@ NewsApp - это приложение для чтения новостей, ко
 
 **YouTube**
 
-link
+https://youtu.be/_LW03uZh224
 
 **Функции**
 
@@ -70,6 +71,7 @@ link
 * Swift: Язык программирования, на котором написано приложение.
 * Firebase: Используется для аутентификации пользователей.
 * newsapi.org: Бесплатный API, используемый для получения новостей.
+* Вся верстка приложения выполнена кодом.
 
 ## Установка и запуск
 1. Склонируйте репозиторий на ваше устройство.
